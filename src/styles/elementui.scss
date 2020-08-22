@@ -1,0 +1,28 @@
+.el-container {
+  height: 100%;
+}
+
+.el-header {
+  padding: 0;
+}
+
+.el-menu.el-menu--horizontal{
+  border-bottom: none;
+}
+
+.el-input {
+  .el-input__inner{
+    border: none;
+  }
+}
+
+.el-menu{
+  .el-menu-item {
+    &:hover{
+      background-color: #5affe9;
+    }
+  }
+}
+
+
+
