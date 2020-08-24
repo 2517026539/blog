@@ -28,7 +28,7 @@ a {
   text-decoration: none;
 }
 
-ul {
+ul, ol {
   list-style: none;
   padding: 0;
   margin: 0
@@ -46,5 +46,85 @@ h1, p {
     display: table;
     overflow: hidden;
     clear: both;
+  }
+}
+
+.pagination{
+  margin-bottom: 40px;
+  margin-left: 50px;
+  text-align: right;
+  button {
+    height: 35px;
+    line-height: 35px;
+  }
+  li {
+    height: 35px;
+    line-height: 35px;
+    width: 25px;
+  }
+}
+
+.render {
+  text-align: left;
+  line-height: 2;
+  color: #555555;
+  h2, h3, h4, h5, h6 {
+    padding-top: 10px;
+    border-bottom: 1px solid #eee;
+    margin: 20px 0 10px;
+    line-height: 1.5;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    color: #555555;
+  }
+
+  p{
+    margin-bottom: 16px;
+  }
+
+  img {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+    padding: 5px;
+  }
+
+  ul {
+    padding-left: 20px;
+    li{
+      line-height: 2;
+      list-style: circle;
+    }
+  }
+
+  ol {
+    padding-left: 20px;
+    li {
+      line-height: 2;
+      list-style: decimal;
+    }
+  }
+
+  pre{
+    padding: 10px;
+    overflow: auto;
+    margin: 20px 0;
+    font-size: 13px;
+    color: #4d4d4c;
+    background-color: #f7f7f7;
+    line-height: 1.6;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .render {
+    p {
+     img{
+       width: 100%;
+       max-height: none;
+     }
+    }
   }
 }

@@ -6,13 +6,13 @@
                     <h1>
                         <router-link to="/home" class="link">{{blogName}}</router-link>
                     </h1>
-                    <i class="el-icon-s-fold antion" style="font-size: 20px" ></i>
+                    <i class="el-icon-s-fold antion" style="font-size: 20px" @click.prevent.stop="nav"></i>
                 </div>
             </el-col>
             <el-col :xl="20" :lg="19" :md="19" :sm="20" :xs="0">
                 <div class="contentRight">
                     <div class="search">
-                        <el-input placeholder="请输入关键字" v-model="searchValue" ref="input">
+                        <el-input placeholder="请输入关键字" v-model="searchValue" @keyup.native.enter="search" ref="input">
                             <i slot="prefix" class="el-icon-search"></i>
                         </el-input>
                     </div>
@@ -27,14 +27,11 @@
                         <el-menu-item index="/place">归档</el-menu-item>
                         <el-menu-item index="/classify">分类</el-menu-item>
                         <el-menu-item index="/about">关于</el-menu-item>
-                        <el-menu-item index="/message">留言</el-menu-item>
+                        <!--<el-menu-item index="/message">留言</el-menu-item>-->
                     </el-menu>
                 </div>
             </el-col>
         </el-row>
-        <div >
-
-        </div>
     </div>
 </template>
 
@@ -45,7 +42,8 @@
             return {
                 searchValue: '',
                 wid: '',
-                defaultActive: ''
+                defaultActive: '',
+                visible: false
             }
         },
         mounted() {
@@ -80,6 +78,12 @@
             }
         },
         methods: {
+            nav() {
+                this.$emit('changeVisible')
+            },
+            search(e) {
+                console.log(e.target.value)
+            }
         }
     }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home" v-loading="loading">
         <ul>
             <li v-for="item in contentList" class="content-li" :key="item.index">
                 <div class="content-header">
@@ -8,85 +8,102 @@
                     </router-link>
                 </div>
                 <div class="content-time">
-                    <span>{{item.date | filterTime}}</span>
+                    <span>{{item.updateDate | filterTime}}</span>
                 </div>
                 <div class="content-body">
                     <router-link class="body_link" :to="{ name: 'article', params: { id: item.id }}">
-                        <p>{{item.content}}</p>
+                        <p>{{item.subtitle}}</p>
                     </router-link>
                 </div>
                 <div class="content-footer">
-                    <span class="iconfont icon">&#xe65f; {{item.watch}}</span>
+                    <span class="iconfont icon">&#xe65f; {{item.watch_num}}</span>
                     <span class="iconfont icon">&#xe609; {{item.comment}}</span>
                     <span class="iconfont icon">&#xe630; </span>
-                    <span v-for="tag in item.tags" class="tag" :key="tag.index" :style="{backgroundColor: tag.color}">{{tag.name}}</span>
+                    <span class="tag" :style="{backgroundColor: '#4abcff'}">{{item.sort}}</span>
                 </div>
             </li>
         </ul>
+        <el-pagination
+             :page-size="pagination.pageSize"
+             :current-page="pagination.page"
+             @current-change="currentChange"
+             :layout="layout"
+             :total="pagination.total"
+             :hide-on-single-page="true"
+             class="pagination"
+             background
+        >
+        </el-pagination>
     </div>
 </template>
 
 <script>
 import { getArticleList } from "../../api/article";
+import moment from 'moment'
 
 export default {
     name: "home",
     filters: {
         filterTime (value) {
-            return `发布 @${value}`
+            return `发布 @${moment(value).format('YYYY年MM月DD日')}`
         }
     },
     data () {
         return {
-            contentList: [
-                {
-                    id: '1',
-                    title: '我发布的首个博客！',
-                    date: '2020年8月15日',
-                    content: '大家好，这是小贤写的第一篇博客日志。该博客系统是本人的一个练手项目，现在这里暂时只有比较少的文章。这篇博客记录了本人开发这个博客系统的全过程，朋友们有兴趣想了解更多具体的本人是如何开发这个博客的可以点击本篇博客了解更多。',
-                    watch: 20,
-                    comment: 7,
-                    tags: [{name: '日常', color: '#4abcff'}]
-                },{
-                    id: '2',
-                    title: '我发布的首个博客！',
-                    date: '2020年8月15日',
-                    content: '大家好，这是小贤写的第一篇博客日志。该博客系统是本人的一个练手项目，现在这里暂时只有比较少的文章。这篇博客记录了本人开发这个博客系统的全过程，朋友们有兴趣想了解更多具体的本人是如何开发这个博客的可以点击本篇博客了解更多。',
-                    watch: 20,
-                    comment: 7,
-                    tags: [{name: '日常', color: '#4abcff'}]
-                },{
-                    id: '3',
-                    title: '我发布的首个博客！',
-                    date: '2020年8月15日',
-                    content: '大家好，这是小贤写的第一篇博客日志。该博客系统是本人的一个练手项目，现在这里暂时只有比较少的文章。这篇博客记录了本人开发这个博客系统的全过程，朋友们有兴趣想了解更多具体的本人是如何开发这个博客的可以点击本篇博客了解更多。',
-                    watch: 20,
-                    comment: 7,
-                    tags: [{name: '日常', color: '#4abcff'}]
-                }
-            ]
+            contentList: [],
+            pagination: {
+                pageSize: 6,
+                page: 1,
+                total: 7,
+            },
+            loading: false,
+            layout: 'prev,pager,next'
         }
     },
     mounted() {
         this.init()
     },
+    beforeRouteEnter(to, form, next) {
+        next(vm => {
+            vm.init()
+        })
+    },
     methods: {
         init() {
-            getArticleList().then(res => {
-                console.log(res)
+            this.loading = true
+            getArticleList(this.pagination).then(res => {
+                const list = res.data.reduce((pre, val) => {
+                    if (!val['comment']) {
+                        val.comment = 0
+                    }
+                    pre.push(val)
+                    return pre
+                },[])
+                this.contentList = list
+                this.loading = false
             }).catch(err => {
-                console.log(err)
+                this.loading = false
+                this.$message({
+                    type: 'error',
+                    message: '数据获取失败！请重新刷新',
+                    duration: 300
+                })
             })
         },
-
+        currentChange(val) {
+            this.pagination.page = val
+            this.init()
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .home {
+    overflow: hidden;
     height: 100%;
     padding: 0px 10px;
+    box-sizing: border-box;
     .content-li {
         box-sizing: border-box;
         padding: 30px 10px 10px 10px;
@@ -106,6 +123,7 @@ export default {
             letter-spacing: 2px;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
             margin-bottom: 5px;
             cursor: pointer;
             .header_link {
@@ -151,7 +169,7 @@ export default {
             cursor: pointer;
             .body_link {
                 color: #666;
-                display: block;
+                display: inline-block;
                 width: 100%;
             }
         }

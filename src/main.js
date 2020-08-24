@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import moment from "moment";
+Vue.prototype.$moment = moment;
 
 import './styles/index.scss'  //全局化css
 import './permissions'        //组件初始化控制

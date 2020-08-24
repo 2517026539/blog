@@ -1,8 +1,8 @@
 <template>
     <div class="aside">
-        <img class="avatar" src="./../../../assets/avatar.jpeg" alt="头像加载中。。">
-        <h1>小贤</h1>
-        <h2>爱看综艺</h2>
+        <img class="avatar" :src="user.avatar" alt="头像加载中。。">
+        <h1>{{user.nickname}}</h1>
+        <h2>{{user.mark}}</h2>
         <ul class="study-list">
             <li>
                 <a href="http://39.103.143.209:80/xxds/" target="_blank"><i class="iconfont icon">&#xe64a;</i>gitHub</a>
@@ -24,12 +24,14 @@
             <span class="name">标签</span>
         </div>
         <div class="tag-list">
-            <el-tag v-for="item in tagList" class="tag-style" :key="item.index" :color="item.color">{{item.name}}</el-tag>
+            <el-tag v-for="item in tagList" class="tag-style" :key="item.index" :style="{backgroundColor: item.backgroundColor, color: item.color}" style="cursor: pointer" @click.native="getArticleList(item.sort)">{{item.sort}}</el-tag>
         </div>
     </div>
 </template>
 
 <script>
+    import { getUserInfo } from './../../../api/user'
+    import { getSortList } from "../../../api/article";
     export default {
         name: "Aside",
         data () {
@@ -57,27 +59,29 @@
                         color: '#8cffa4'
                     }
                 ],
-                tagList: [
-                    {
-                        name: 'Node',
-                        color: '#5affe9'
-                    }, {
-                        name: 'vue',
-                        color: '#60ff4b'
-                    }, {
-                        name: 'react',
-                        color: '#cc8a30'
-                    }, {
-                        name: 'HTTP',
-                        color: '#8cffa4'
-                    }, {
-                        name: 'HTTPS',
-                        color: '#2840ff'
-                    }, {
-                        name: 'webpack',
-                        color: '#cc4e58'
-                    }
-                ]
+                tagList: [],
+                user: {}
+            }
+        },
+        mounted() {
+            this.init()
+        },
+        methods: {
+            init() {
+                getUserInfo().then(res => {
+                    this.user = res.data
+                }).catch(err => {
+                    console.log(err)
+                })
+                getSortList().then(res => {
+                    this.tagList = res.data.sortList
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
+            getArticleList(sort) {
+                console.log(sort)
+                // this.$router.push({name: '归档', query:{ sort: `'${sort}'`}})
             }
         }
     }
