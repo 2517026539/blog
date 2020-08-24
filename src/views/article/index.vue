@@ -56,9 +56,6 @@ export default {
             deep: true
         }
     },
-    mounted() {
-        this.init()
-    },
     beforeRouteEnter(to, from, next){
         next(vm => {
             vm.init()

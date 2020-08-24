@@ -6,7 +6,7 @@ module.exports = {
     // 输出路径
     outputDir: 'dist',
     // 静态资源
-    assetsDir: './',
+    assetsDir: 'static',
     //eslint-loader 是否在保存时检查
     lintOnSave: process.env.NODE_ENV === 'development',
     //服务项配置

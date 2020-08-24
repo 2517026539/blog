@@ -5,10 +5,10 @@
         <h2>{{user.mark}}</h2>
         <ul class="study-list">
             <li>
-                <a href="http://39.103.143.209:80/xxds/" target="_blank"><i class="iconfont icon">&#xe64a;</i>gitHub</a>
+                <a href="https://github.com/2517026539/blog" target="_blank"><i class="iconfont icon">&#xe64a;</i>gitHub</a>
             </li>
             <li>
-                <a href="http://39.103.143.209:80/xxds/" target="_blank"><i class="iconfont icon">&#xe600;</i>码云</a>
+                <a href="https://gitee.com/hzsljx/blog" target="_blank"><i class="iconfont icon">&#xe600;</i>码云</a>
             </li>
         </ul>
         <div class="skill">

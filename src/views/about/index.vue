@@ -8,7 +8,7 @@
             本博客的技术为vue + elementui + express + mysql
         </p>
         <p>
-            源码地址为<a href="http://39.103.143.209:80/xxds" target="_blank" style="color: #5e98ff">github</a>,想参考的朋友们，可以自行查阅代码
+            源码地址为<a href="https://github.com/2517026539/blog" target="_blank" style="color: #5e98ff">github</a>,想参考的朋友们，可以自行查阅代码
         </p>
         <div class="about-me">
             <span>关于我</span>
